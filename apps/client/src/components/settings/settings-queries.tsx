@@ -8,9 +8,9 @@ import { getGroups } from "@/features/group/services/group-service.ts";
 import { QueryParams } from "@/lib/types.ts";
 import { getWorkspaceMembers } from "@/features/workspace/services/workspace-service.ts";
 import { getLicenseInfo } from "@/ee/licence/services/license-service.ts";
-import { getSsoProviders } from "@/ee/security/services/security-service.ts";
-import { getShares } from "@/features/share/services/share-service.ts";
-import { getApiKeys } from "@/ee/api-key";
+// import { getSsoProviders } from "@/ee/security/services/security-service.ts"; // DISABLED: Security & SSO feature removed
+// import { getShares } from "@/features/share/services/share-service.ts"; // DISABLED: Public sharing feature removed
+// import { getApiKeys } from "@/ee/api-key"; // DISABLED: API keys feature removed
 
 export const prefetchWorkspaceMembers = () => {
   const params = { limit: 100, page: 1, query: "" } as QueryParams;
@@ -53,30 +53,34 @@ export const prefetchLicense = () => {
   });
 };
 
-export const prefetchSsoProviders = () => {
-  queryClient.prefetchQuery({
-    queryKey: ["sso-providers"],
-    queryFn: () => getSsoProviders(),
-  });
-};
+// DISABLED: Security & SSO feature removed
+// export const prefetchSsoProviders = () => {
+//   queryClient.prefetchQuery({
+//     queryKey: ["sso-providers"],
+//     queryFn: () => getSsoProviders(),
+//   });
+// };
 
-export const prefetchShares = () => {
-  queryClient.prefetchQuery({
-    queryKey: ["share-list", { page: 1 }],
-    queryFn: () => getShares({ page: 1, limit: 100 }),
-  });
-};
+// DISABLED: Public sharing feature removed
+// export const prefetchShares = () => {
+//   queryClient.prefetchQuery({
+//     queryKey: ["share-list", { page: 1 }],
+//     queryFn: () => getShares({ page: 1, limit: 100 }),
+//   });
+// };
 
-export const prefetchApiKeys = () => {
-  queryClient.prefetchQuery({
-    queryKey: ["api-key-list", { page: 1 }],
-    queryFn: () => getApiKeys({ page: 1 }),
-  });
-};
+// DISABLED: API keys feature removed
+// export const prefetchApiKeys = () => {
+//   queryClient.prefetchQuery({
+//     queryKey: ["api-key-list", { page: 1 }],
+//     queryFn: () => getApiKeys({ page: 1 }),
+//   });
+// };
 
-export const prefetchApiKeyManagement = () => {
-  queryClient.prefetchQuery({
-    queryKey: ["api-key-list", { page: 1 }],
-    queryFn: () => getApiKeys({ page: 1, adminView: true }),
-  });
-};
+// DISABLED: API keys feature removed
+// export const prefetchApiKeyManagement = () => {
+//   queryClient.prefetchQuery({
+//     queryKey: ["api-key-list", { page: 1 }],
+//     queryFn: () => getApiKeys({ page: 1, adminView: true }),
+//   });
+// };

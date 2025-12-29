@@ -199,7 +199,7 @@ export class PageRepo {
           .where('id', 'in', pageIds)
           .execute();
 
-        await trx.deleteFrom('shares').where('pageId', 'in', pageIds).execute();
+//         await trx.deleteFrom('shares').where('pageId', 'in', pageIds).execute(); // DISABLED: Share feature removed
       });
 
       this.eventEmitter.emit(EventName.PAGE_SOFT_DELETED, {

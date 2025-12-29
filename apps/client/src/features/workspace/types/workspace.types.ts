@@ -1,4 +1,4 @@
-import { IAuthProvider } from "@/ee/security/types/security.types.ts";
+// import { IAuthProvider } from "@/ee/security/types/security.types.ts"; // DISABLED: Security feature removed
 
 export interface IWorkspace {
   id: string;

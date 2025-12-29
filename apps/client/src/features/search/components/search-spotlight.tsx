@@ -8,9 +8,9 @@ import { notifications } from "@mantine/notifications";
 import { searchSpotlightStore } from "../constants.ts";
 import { SearchSpotlightFilters } from "./search-spotlight-filters.tsx";
 import { useUnifiedSearch } from "../hooks/use-unified-search.ts";
-import { useAiSearch } from "../../../ee/ai/hooks/use-ai-search.ts";
+// import { useAiSearch } from "../../../ee/ai/hooks/use-ai-search.ts"; // DISABLED: AI feature removed
 import { SearchResultItem } from "./search-result-item.tsx";
-import { AiSearchResult } from "../../../ee/ai/components/ai-search-result.tsx";
+// import { AiSearchResult } from "../../../ee/ai/components/ai-search-result.tsx"; // DISABLED: AI feature removed
 import { useLicense } from "@/ee/hooks/use-license.tsx";
 import { isCloud } from "@/lib/config.ts";
 

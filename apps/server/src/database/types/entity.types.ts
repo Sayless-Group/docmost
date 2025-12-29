@@ -14,12 +14,12 @@ import {
   UserTokens,
   Backlinks,
   Billing as BillingSubscription,
-  AuthProviders,
-  AuthAccounts,
-  Shares,
+  // AuthProviders, // DISABLED: Security & SSO feature removed
+  // AuthAccounts, // DISABLED: Security & SSO feature removed
+  // Shares, // DISABLED: Public sharing feature removed
   FileTasks,
   UserMfa as _UserMFA,
-  ApiKeys,
+  // ApiKeys, // DISABLED: API keys feature removed
 } from './db';
 import { PageEmbeddings } from '@docmost/db/types/embeddings.types';
 
@@ -97,20 +97,20 @@ export type Billing = Selectable<BillingSubscription>;
 export type InsertableBilling = Insertable<BillingSubscription>;
 export type UpdatableBilling = Updateable<Omit<BillingSubscription, 'id'>>;
 
-// Auth Provider
-export type AuthProvider = Selectable<AuthProviders>;
-export type InsertableAuthProvider = Insertable<AuthProviders>;
-export type UpdatableAuthProvider = Updateable<Omit<AuthProviders, 'id'>>;
+// Auth Provider - DISABLED: Security & SSO feature removed
+// export type AuthProvider = Selectable<AuthProviders>;
+// export type InsertableAuthProvider = Insertable<AuthProviders>;
+// export type UpdatableAuthProvider = Updateable<Omit<AuthProviders, 'id'>>;
 
-// Auth Account
-export type AuthAccount = Selectable<AuthAccounts>;
-export type InsertableAuthAccount = Insertable<AuthAccounts>;
-export type UpdatableAuthAccount = Updateable<Omit<AuthAccounts, 'id'>>;
+// Auth Account - DISABLED: Security & SSO feature removed
+// export type AuthAccount = Selectable<AuthAccounts>;
+// export type InsertableAuthAccount = Insertable<AuthAccounts>;
+// export type UpdatableAuthAccount = Updateable<Omit<AuthAccounts, 'id'>>;
 
-// Share
-export type Share = Selectable<Shares>;
-export type InsertableShare = Insertable<Shares>;
-export type UpdatableShare = Updateable<Omit<Shares, 'id'>>;
+// Share - DISABLED: Public sharing feature removed
+// export type Share = Selectable<Shares>;
+// export type InsertableShare = Insertable<Shares>;
+// export type UpdatableShare = Updateable<Omit<Shares, 'id'>>;
 
 // File Task
 export type FileTask = Selectable<FileTasks>;
@@ -122,10 +122,10 @@ export type UserMFA = Selectable<_UserMFA>;
 export type InsertableUserMFA = Insertable<_UserMFA>;
 export type UpdatableUserMFA = Updateable<Omit<_UserMFA, 'id'>>;
 
-// Api Keys
-export type ApiKey = Selectable<ApiKeys>;
-export type InsertableApiKey = Insertable<ApiKeys>;
-export type UpdatableApiKey = Updateable<Omit<ApiKeys, 'id'>>;
+// Api Keys - DISABLED: API keys feature removed
+// export type ApiKey = Selectable<ApiKeys>;
+// export type InsertableApiKey = Insertable<ApiKeys>;
+// export type UpdatableApiKey = Updateable<Omit<ApiKeys, 'id'>>;
 
 // Page Embedding
 export type PageEmbedding = Selectable<PageEmbeddings>;

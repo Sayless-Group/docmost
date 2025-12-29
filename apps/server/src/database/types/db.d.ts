@@ -30,17 +30,18 @@ export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
-export interface ApiKeys {
-  createdAt: Generated<Timestamp>;
-  deletedAt: Timestamp | null;
-  expiresAt: Timestamp | null;
-  id: Generated<string>;
-  lastUsedAt: Timestamp | null;
-  name: string | null;
-  updatedAt: Generated<Timestamp>;
-  creatorId: string;
-  workspaceId: string;
-}
+// DISABLED: API keys feature removed
+// export interface ApiKeys {
+//   createdAt: Generated<Timestamp>;
+//   deletedAt: Timestamp | null;
+//   expiresAt: Timestamp | null;
+//   id: Generated<string>;
+//   lastUsedAt: Timestamp | null;
+//   name: string | null;
+//   updatedAt: Generated<Timestamp>;
+//   creatorId: string;
+//   workspaceId: string;
+// }
 
 export interface Attachments {
   createdAt: Generated<Timestamp>;
@@ -61,45 +62,47 @@ export interface Attachments {
   workspaceId: string;
 }
 
-export interface AuthAccounts {
-  authProviderId: string | null;
-  createdAt: Generated<Timestamp>;
-  deletedAt: Timestamp | null;
-  id: Generated<string>;
-  providerUserId: string;
-  updatedAt: Generated<Timestamp>;
-  userId: string;
-  workspaceId: string;
-}
+// DISABLED: Security & SSO feature removed
+// export interface AuthAccounts {
+//   authProviderId: string | null;
+//   createdAt: Generated<Timestamp>;
+//   deletedAt: Timestamp | null;
+//   id: Generated<string>;
+//   providerUserId: string;
+//   updatedAt: Generated<Timestamp>;
+//   userId: string;
+//   workspaceId: string;
+// }
 
-export interface AuthProviders {
-  allowSignup: Generated<boolean>;
-  createdAt: Generated<Timestamp>;
-  creatorId: string | null;
-  deletedAt: Timestamp | null;
-  id: Generated<string>;
-  isEnabled: Generated<boolean>;
-  groupSync: Generated<boolean>;
-  ldapBaseDn: string | null;
-  ldapBindDn: string | null;
-  ldapBindPassword: string | null;
-  ldapTlsCaCert: string | null;
-  ldapTlsEnabled: Generated<boolean | null>;
-  ldapUrl: string | null;
-  ldapUserAttributes: Json | null;
-  ldapUserSearchFilter: string | null;
-  ldapConfig: Json | null;
-  settings: Json | null;
-  name: string;
-  oidcClientId: string | null;
-  oidcClientSecret: string | null;
-  oidcIssuer: string | null;
-  samlCertificate: string | null;
-  samlUrl: string | null;
-  type: string;
-  updatedAt: Generated<Timestamp>;
-  workspaceId: string;
-}
+// DISABLED: Security & SSO feature removed
+// export interface AuthProviders {
+//   allowSignup: Generated<boolean>;
+//   createdAt: Generated<Timestamp>;
+//   creatorId: string | null;
+//   deletedAt: Timestamp | null;
+//   id: Generated<string>;
+//   isEnabled: Generated<boolean>;
+//   groupSync: Generated<boolean>;
+//   ldapBaseDn: string | null;
+//   ldapBindDn: string | null;
+//   ldapBindPassword: string | null;
+//   ldapTlsCaCert: string | null;
+//   ldapTlsEnabled: Generated<boolean | null>;
+//   ldapUrl: string | null;
+//   ldapUserAttributes: Json | null;
+//   ldapUserSearchFilter: string | null;
+//   ldapConfig: Json | null;
+//   settings: Json | null;
+//   name: string;
+//   oidcClientId: string | null;
+//   oidcClientSecret: string | null;
+//   oidcIssuer: string | null;
+//   samlCertificate: string | null;
+//   samlUrl: string | null;
+//   type: string;
+//   updatedAt: Generated<Timestamp>;
+//   workspaceId: string;
+// }
 
 export interface Backlinks {
   createdAt: Generated<Timestamp>;
@@ -238,19 +241,20 @@ export interface Pages {
   ydoc: Buffer | null;
 }
 
-export interface Shares {
-  createdAt: Generated<Timestamp>;
-  creatorId: string | null;
-  deletedAt: Timestamp | null;
-  id: Generated<string>;
-  includeSubPages: Generated<boolean | null>;
-  key: string;
-  pageId: string | null;
-  searchIndexing: Generated<boolean | null>;
-  spaceId: string;
-  updatedAt: Generated<Timestamp>;
-  workspaceId: string;
-}
+// DISABLED: Public sharing feature removed
+// export interface Shares {
+//   createdAt: Generated<Timestamp>;
+//   creatorId: string | null;
+//   deletedAt: Timestamp | null;
+//   id: Generated<string>;
+//   includeSubPages: Generated<boolean | null>;
+//   key: string;
+//   pageId: string | null;
+//   searchIndexing: Generated<boolean | null>;
+//   spaceId: string;
+//   updatedAt: Generated<Timestamp>;
+//   workspaceId: string;
+// }
 
 export interface SpaceMembers {
   addedById: string | null;
@@ -361,10 +365,10 @@ export interface Workspaces {
 }
 
 export interface DB {
-  apiKeys: ApiKeys;
+  // apiKeys: ApiKeys; // DISABLED: API keys feature removed
   attachments: Attachments;
-  authAccounts: AuthAccounts;
-  authProviders: AuthProviders;
+  // authAccounts: AuthAccounts; // DISABLED: Security & SSO feature removed
+  // authProviders: AuthProviders; // DISABLED: Security & SSO feature removed
   backlinks: Backlinks;
   billing: Billing;
   comments: Comments;
@@ -373,7 +377,7 @@ export interface DB {
   groupUsers: GroupUsers;
   pageHistory: PageHistory;
   pages: Pages;
-  shares: Shares;
+  // shares: Shares; // DISABLED: Public sharing feature removed
   spaceMembers: SpaceMembers;
   spaces: Spaces;
   userMfa: UserMfa;

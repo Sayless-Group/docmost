@@ -6,9 +6,9 @@ import { z } from "zod";
 import { notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { IAuthProvider } from "@/ee/security/types/security.types";
+// import { IAuthProvider } from "@/ee/security/types/security.types"; // DISABLED: Security feature removed
 import APP_ROUTE from "@/lib/app-route";
-import { ldapLogin } from "@/ee/security/services/ldap-auth-service";
+// import { ldapLogin } from "@/ee/security/services/ldap-auth-service"; // DISABLED: Security feature removed
 
 const formSchema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
@@ -28,6 +28,9 @@ export function LdapLoginModal({
   provider,
   workspaceId,
 }: LdapLoginModalProps) {
+  // DISABLED: Security feature removed
+  return null;
+
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);

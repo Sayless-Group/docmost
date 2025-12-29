@@ -43,7 +43,7 @@ import { formattedDate, timeAgo } from "@/lib/time.ts";
 import { PageStateSegmentedControl } from "@/features/user/components/page-state-pref.tsx";
 import MovePageModal from "@/features/page/components/move-page-modal.tsx";
 import { useTimeAgo } from "@/hooks/use-time-ago.tsx";
-import ShareModal from "@/features/share/components/share-modal.tsx";
+// import ShareModal from "@/features/share/components/share-modal.tsx"; // DISABLED: Share feature removed
 
 interface PageHeaderMenuProps {
   readOnly?: boolean;

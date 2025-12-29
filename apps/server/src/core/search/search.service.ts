@@ -6,7 +6,7 @@ import { KyselyDB } from '@docmost/db/types/kysely.types';
 import { sql } from 'kysely';
 import { PageRepo } from '@docmost/db/repos/page/page.repo';
 import { SpaceMemberRepo } from '@docmost/db/repos/space/space-member.repo';
-import { ShareRepo } from '@docmost/db/repos/share/share.repo';
+// import { ShareRepo } from '@docmost/db/repos/share/share.repo'; // DISABLED: Share feature removed
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const tsquery = require('pg-tsquery')();
@@ -16,7 +16,7 @@ export class SearchService {
   constructor(
     @InjectKysely() private readonly db: KyselyDB,
     private pageRepo: PageRepo,
-    private shareRepo: ShareRepo,
+    // private shareRepo: ShareRepo, // DISABLED: Share feature removed
     private spaceMemberRepo: SpaceMemberRepo,
   ) {}
 
@@ -84,35 +84,36 @@ export class SearchService {
       } else {
         return [];
       }
-    } else if (searchParams.shareId && !searchParams.spaceId && !opts.userId) {
-      // search in shares
-      const shareId = searchParams.shareId;
-      const share = await this.shareRepo.findById(shareId);
-      if (!share || share.workspaceId !== opts.workspaceId) {
-        return [];
-      }
+    // } else if (searchParams.shareId && !searchParams.spaceId && !opts.userId) {
+    //   // DISABLED: Share feature removed
+    //   // search in shares
+    //   const shareId = searchParams.shareId;
+    //   const share = await this.shareRepo.findById(shareId);
+    //   if (!share || share.workspaceId !== opts.workspaceId) {
+    //     return [];
+    //   }
 
-      const pageIdsToSearch = [];
-      if (share.includeSubPages) {
-        const pageList = await this.pageRepo.getPageAndDescendants(
-          share.pageId,
-          {
-            includeContent: false,
-          },
-        );
+    //   const pageIdsToSearch = [];
+    //   if (share.includeSubPages) {
+    //     const pageList = await this.pageRepo.getPageAndDescendants(
+    //       share.pageId,
+    //       {
+    //         includeContent: false,
+    //       },
+    //     );
 
-        pageIdsToSearch.push(...pageList.map((page) => page.id));
-      } else {
-        pageIdsToSearch.push(share.pageId);
-      }
+    //     pageIdsToSearch.push(...pageList.map((page) => page.id));
+    //   } else {
+    //     pageIdsToSearch.push(share.pageId);
+    //   }
 
-      if (pageIdsToSearch.length > 0) {
-        queryResults = queryResults
-          .where('id', 'in', pageIdsToSearch)
-          .where('workspaceId', '=', opts.workspaceId);
-      } else {
-        return [];
-      }
+    //   if (pageIdsToSearch.length > 0) {
+    //     queryResults = queryResults
+    //       .where('id', 'in', pageIdsToSearch)
+    //       .where('workspaceId', '=', opts.workspaceId);
+    //   } else {
+    //     return [];
+    //   }
     } else {
       return [];
     }

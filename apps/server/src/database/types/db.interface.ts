@@ -1,8 +1,8 @@
 import {
-  ApiKeys,
+  // ApiKeys, // DISABLED: API keys feature removed
   Attachments,
-  AuthAccounts,
-  AuthProviders,
+  // AuthAccounts, // DISABLED: Security & SSO feature removed
+  // AuthProviders, // DISABLED: Security & SSO feature removed
   Backlinks,
   Billing,
   Comments,
@@ -11,7 +11,7 @@ import {
   GroupUsers,
   PageHistory,
   Pages,
-  Shares,
+  // Shares, // DISABLED: Public sharing feature removed
   SpaceMembers,
   Spaces,
   UserMfa,
@@ -24,8 +24,8 @@ import { PageEmbeddings } from '@docmost/db/types/embeddings.types';
 
 export interface DbInterface {
   attachments: Attachments;
-  authAccounts: AuthAccounts;
-  authProviders: AuthProviders;
+  // authAccounts: AuthAccounts; // DISABLED: Security & SSO feature removed
+  // authProviders: AuthProviders; // DISABLED: Security & SSO feature removed
   backlinks: Backlinks;
   billing: Billing;
   comments: Comments;
@@ -35,7 +35,7 @@ export interface DbInterface {
   pageEmbeddings: PageEmbeddings;
   pageHistory: PageHistory;
   pages: Pages;
-  shares: Shares;
+  // shares: Shares; // DISABLED: Public sharing feature removed
   spaceMembers: SpaceMembers;
   spaces: Spaces;
   userMfa: UserMfa;
@@ -43,5 +43,5 @@ export interface DbInterface {
   userTokens: UserTokens;
   workspaceInvitations: WorkspaceInvitations;
   workspaces: Workspaces;
-  apiKeys: ApiKeys;
+  // apiKeys: ApiKeys; // DISABLED: API keys feature removed
 }

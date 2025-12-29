@@ -12,7 +12,7 @@ import {
 } from "@/features/page/page.utils.ts";
 import { useTranslation } from "react-i18next";
 import { sortPositionKeys } from "@/features/page/tree/utils/utils";
-import { useSharedPageSubpages } from "@/features/share/hooks/use-shared-page-subpages";
+// import { useSharedPageSubpages } from "@/features/share/hooks/use-shared-page-subpages"; // DISABLED: Share feature removed
 
 export default function SubpagesView(props: NodeViewProps) {
   const { editor } = props;
