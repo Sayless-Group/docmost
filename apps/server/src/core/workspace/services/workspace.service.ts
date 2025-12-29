@@ -71,92 +71,94 @@ export class WorkspaceService {
     const workspace = await this.db
       .selectFrom('workspaces')
       .select(['id', 'name', 'logo', 'hostname', 'enforceSso', 'licenseKey'])
-      .select((eb) =>
-        jsonArrayFrom(
-          eb
-//             .selectFrom('authProviders')
-//             .select([
-//               'authProviders.id',
-//               'authProviders.name',
-//               'authProviders.type',
-//             ])
-//             .where('authProviders.isEnabled', '=', true)
-//             .where('workspaceId', '=', workspaceId),
-//         ).as('authProviders'),
-//       )
-//       .where('id', '=', workspaceId)
-//       .executeTakeFirst();
-// 
-//     if (!workspace) {
-//       throw new NotFoundException('Workspace not found');
-//     }
-// 
-//     const { licenseKey, ...rest } = workspace;
-// 
-//     return {
-//       ...rest,
-//       hasLicenseKey: Boolean(licenseKey),
-//     };
-//   }
-// 
-//   async create(
-//     user: User,
-//     createWorkspaceDto: CreateWorkspaceDto,
-//     trx?: KyselyTransaction,
-//   ) {
-//     let trialEndAt = undefined;
-// 
-//     const createdWorkspace = await executeTx(
-//       this.db,
-//       async (trx) => {
-//         let hostname = undefined;
-//         let status = undefined;
-//         let plan = undefined;
-//         let billingEmail = undefined;
-// 
-//         if (this.environmentService.isCloud()) {
-//           // generate unique hostname
-//           hostname = await this.generateHostname(
-//             createWorkspaceDto.hostname ?? createWorkspaceDto.name,
-//           );
-//           trialEndAt = addDays(
-//             new Date(),
-//             this.environmentService.getBillingTrialDays(),
-//           );
-//           status = WorkspaceStatus.Active;
-//           plan = 'standard';
-//           billingEmail = user.email;
-//         }
-// 
-//         // create workspace
-//         const workspace = await this.workspaceRepo.insertWorkspace(
-//           {
-//             name: createWorkspaceDto.name,
-//             description: createWorkspaceDto.description,
-//             hostname,
-//             status,
-//             trialEndAt,
-//             plan,
-//             billingEmail,
-//           },
-//           trx,
-//         );
-// 
-//         // create default group
-//         const group = await this.groupRepo.createDefaultGroup(workspace.id, {
-//           userId: user.id,
-//           trx: trx,
-//         });
-// 
-//         // add user to workspace
-//         await trx
-//           .updateTable('users')
-//           .set({
-//             workspaceId: workspace.id,
-//             role: UserRole.OWNER,
-//           })
-//           .where('users.id', '=', user.id)
-//           .execute();
+      // DISABLED: Security & SSO feature removed
+      // .select((eb) =>
+      //   jsonArrayFrom(
+      //     eb
+      //       .selectFrom('authProviders')
+      //       .select([
+      //         'authProviders.id',
+      //         'authProviders.name',
+      //         'authProviders.type',
+      //       ])
+      //       .where('authProviders.isEnabled', '=', true)
+      //       .where('workspaceId', '=', workspaceId),
+      //   ).as('authProviders'),
+      // )
+      .where('id', '=', workspaceId)
+      .executeTakeFirst();
+
+    if (!workspace) {
+      throw new NotFoundException('Workspace not found');
+    }
+
+    const { licenseKey, ...rest } = workspace;
+
+    return {
+      ...rest,
+      authProviders: [], // DISABLED: Security & SSO feature removed
+      hasLicenseKey: Boolean(licenseKey),
+    };
+  }
+
+  async create(
+    user: User,
+    createWorkspaceDto: CreateWorkspaceDto,
+    trx?: KyselyTransaction,
+  ) {
+    let trialEndAt = undefined;
+
+    const createdWorkspace = await executeTx(
+      this.db,
+      async (trx) => {
+        let hostname = undefined;
+        let status = undefined;
+        let plan = undefined;
+        let billingEmail = undefined;
+
+        if (this.environmentService.isCloud()) {
+          // generate unique hostname
+          hostname = await this.generateHostname(
+            createWorkspaceDto.hostname ?? createWorkspaceDto.name,
+          );
+          trialEndAt = addDays(
+            new Date(),
+            this.environmentService.getBillingTrialDays(),
+          );
+          status = WorkspaceStatus.Active;
+          plan = 'standard';
+          billingEmail = user.email;
+        }
+
+        // create workspace
+        const workspace = await this.workspaceRepo.insertWorkspace(
+          {
+            name: createWorkspaceDto.name,
+            description: createWorkspaceDto.description,
+            hostname,
+            status,
+            trialEndAt,
+            plan,
+            billingEmail,
+          },
+          trx,
+        );
+
+        // create default group
+        const group = await this.groupRepo.createDefaultGroup(workspace.id, {
+          userId: user.id,
+          trx: trx,
+        });
+
+        // add user to workspace
+        await trx
+          .updateTable('users')
+          .set({
+            workspaceId: workspace.id,
+            role: UserRole.OWNER,
+          })
+          .where('users.id', '=', user.id)
+          .execute();
 
         // add user to default group created above
         await this.groupUserRepo.insertGroupUser(
@@ -270,12 +272,14 @@ export class WorkspaceService {
 
   async update(workspaceId: string, updateWorkspaceDto: UpdateWorkspaceDto) {
     if (updateWorkspaceDto.enforceSso) {
-      const sso = await this.db
-//         .selectFrom('authProviders')
-//         .selectAll()
-//         .where('isEnabled', '=', true)
-//         .where('workspaceId', '=', workspaceId)
-//         .execute();
+      // DISABLED: Security & SSO feature removed
+      // const sso = await this.db
+      //   .selectFrom('authProviders')
+      //   .selectAll()
+      //   .where('isEnabled', '=', true)
+      //   .where('workspaceId', '=', workspaceId)
+      //   .execute();
+      const sso = [];
 
       if (sso && sso?.length === 0) {
         throw new BadRequestException(
@@ -525,10 +529,11 @@ export class WorkspaceService {
         .deleteFrom('spaceMembers')
         .where('userId', '=', userId)
         .execute();
-      await trx
-//         .deleteFrom('authAccounts')
-//         .where('userId', '=', userId)
-//         .execute();
+      // DISABLED: Security & SSO feature removed
+      // await trx
+      //   .deleteFrom('authAccounts')
+      //   .where('userId', '=', userId)
+      //   .execute();
     });
 
     try {

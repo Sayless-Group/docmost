@@ -65,7 +65,7 @@ export interface IPublicWorkspace {
   logo: string;
   hostname: string;
   enforceSso: boolean;
-  authProviders: IAuthProvider[];
+  authProviders: any[]; // DISABLED: Security feature removed - was IAuthProvider[]
   hasLicenseKey?: boolean;
 }
 

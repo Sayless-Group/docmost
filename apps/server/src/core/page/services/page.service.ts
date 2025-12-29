@@ -236,12 +236,12 @@ export class PageService {
       }
 
       if (pageIds.length > 0) {
-        // update spaceId in shares
-        await trx
-//           .updateTable('shares')
-//           .set({ spaceId: spaceId })
-//           .where('pageId', 'in', pageIds)
-//           .execute();
+        // DISABLED: Public sharing feature removed
+        // await trx
+        //   .updateTable('shares')
+        //   .set({ spaceId: spaceId })
+        //   .where('pageId', 'in', pageIds)
+        //   .execute();
 
         // Update comments
         await trx

@@ -49,21 +49,30 @@ export function SearchSpotlight({ spaceId }: SearchSpotlightProps) {
     searchParams,
     !isAiMode // Disable regular search when in AI mode
   );
-  const {
-    //@ts-ignore
-    data: aiSearchResult,
-    //@ts-ignore
-    isPending: isAiLoading,
-    //@ts-ignore
-    mutate: triggerAiSearchMutation,
-    //@ts-ignore
-    reset: resetAiMutation,
-    //@ts-ignore
-    error: aiSearchError,
-    streamingAnswer,
-    streamingSources,
-    clearStreaming,
-  } = useAiSearch();
+  // DISABLED: AI feature removed
+  // const {
+  //   //@ts-ignore
+  //   data: aiSearchResult,
+  //   //@ts-ignore
+  //   isPending: isAiLoading,
+  //   //@ts-ignore
+  //   mutate: triggerAiSearchMutation,
+  //   //@ts-ignore
+  //   reset: resetAiMutation,
+  //   //@ts-ignore
+  //   error: aiSearchError,
+  //   streamingAnswer,
+  //   streamingSources,
+  //   clearStreaming,
+  // } = useAiSearch();
+  const aiSearchResult = null;
+  const isAiLoading = false;
+  const triggerAiSearchMutation = (_params?: any) => {}; // DISABLED: AI feature removed
+  const resetAiMutation = () => {};
+  const aiSearchError = null;
+  const streamingAnswer = null;
+  const streamingSources = null;
+  const clearStreaming = () => {};
 
   // Clear streaming state and mutation data when query changes (user is typing a new query)
   useEffect(() => {
@@ -166,14 +175,15 @@ export function SearchSpotlight({ spaceId }: SearchSpotlightProps) {
               {query.length === 0 && (
                 <Spotlight.Empty>{t("Ask a question...")}</Spotlight.Empty>
               )}
-              {query.length > 0 && (isAiLoading || aiSearchResult || streamingAnswer) && (
+              {/* DISABLED: AI feature removed */}
+              {/* {query.length > 0 && (isAiLoading || aiSearchResult || streamingAnswer) && (
                 <AiSearchResult
                   result={aiSearchResult}
                   isLoading={isAiLoading}
                   streamingAnswer={streamingAnswer}
                   streamingSources={streamingSources}
                 />
-              )}
+              )} */}
               {query.length > 0 && !isAiLoading && !aiSearchResult && (
                 <Spotlight.Empty>{t("No answer available")}</Spotlight.Empty>
               )}

@@ -21,8 +21,9 @@ export default function SubpagesView(props: NodeViewProps) {
 
   const currentPageId = editor.storage.pageId;
 
-  // Get subpages from shared tree if we're in a shared context
-  const sharedSubpages = useSharedPageSubpages(currentPageId);
+  // DISABLED: Share feature removed
+  // const sharedSubpages = useSharedPageSubpages(currentPageId);
+  const sharedSubpages = null;
 
   const { data, isLoading, error } = useGetSidebarPagesQuery({
     pageId: currentPageId,
