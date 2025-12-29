@@ -23,7 +23,7 @@ import CloudLogin from "@/ee/pages/cloud-login.tsx";
 import CreateWorkspace from "@/ee/pages/create-workspace.tsx";
 import { isCloud } from "@/lib/config.ts";
 import { useTranslation } from "react-i18next";
-import License from "@/ee/licence/pages/license.tsx";
+// import License from "@/ee/licence/pages/license.tsx"; // REMOVED: License page removed
 import { useRedirectToCloudSelect } from "@/ee/hooks/use-redirect-to-cloud-select.tsx";
 import { useTrackOrigin } from "@/hooks/use-track-origin";
 import SpacesPage from "@/pages/spaces/spaces.tsx";
@@ -87,7 +87,8 @@ export default function App() {
             <Route path={"groups"} element={<Groups />} />
             <Route path={"groups/:groupId"} element={<GroupInfo />} />
             <Route path={"spaces"} element={<Spaces />} />
-            {!isCloud() && <Route path={"license"} element={<License />} />}
+            {/* REMOVED: License route removed */}
+            {/* {!isCloud() && <Route path={"license"} element={<License />} />} */}
             {isCloud() && <Route path={"billing"} element={<Billing />} />}
           </Route>
         </Route>

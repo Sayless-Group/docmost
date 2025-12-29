@@ -46,12 +46,13 @@ export const prefetchBilling = () => {
   });
 };
 
-export const prefetchLicense = () => {
-  queryClient.prefetchQuery({
-    queryKey: ["license"],
-    queryFn: () => getLicenseInfo(),
-  });
-};
+// REMOVED: License feature removed
+// export const prefetchLicense = () => {
+//   queryClient.prefetchQuery({
+//     queryKey: ["license"],
+//     queryFn: () => getLicenseInfo(),
+//   });
+// };
 
 // DISABLED: Security & SSO feature removed
 // export const prefetchSsoProviders = () => {

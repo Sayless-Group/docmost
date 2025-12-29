@@ -21,11 +21,11 @@ import { workspaceAtom } from "@/features/user/atoms/current-user-atom.ts";
 import {
   prefetchBilling,
   prefetchGroups,
-  prefetchLicense,
+  // prefetchLicense, // REMOVED: License feature removed
   prefetchSpaces,
   prefetchWorkspaceMembers,
 } from "@/components/settings/settings-queries.tsx";
-import AppVersion from "@/components/settings/app-version.tsx";
+// import AppVersion from "@/components/settings/app-version.tsx"; // REMOVED: Version display removed
 import { mobileSidebarAtom } from "@/components/layouts/global/hooks/atoms/sidebar-atom.ts";
 import { useToggleSidebar } from "@/components/layouts/global/hooks/hooks/use-toggle-sidebar.ts";
 import { useSettingsNavigation } from "@/hooks/use-settings-navigation";
@@ -78,16 +78,17 @@ const groupedData: DataGroup[] = [
       { label: "Spaces", icon: IconSpaces, path: "/settings/spaces" },
     ],
   },
-  {
-    heading: "System",
-    items: [
-      {
-        label: "License & Edition",
-        icon: IconKey,
-        path: "/settings/license",
-      },
-    ],
-  },
+  // REMOVED: System section with License & Edition
+  // {
+  //   heading: "System",
+  //   items: [
+  //     {
+  //       label: "License & Edition",
+  //       icon: IconKey,
+  //       path: "/settings/license",
+  //     },
+  //   ],
+  // },
 ];
 
 export default function SettingsSidebar() {
@@ -170,11 +171,12 @@ export default function SettingsSidebar() {
             case "Billing":
               prefetchHandler = prefetchBilling;
               break;
-            case "License & Edition":
-              if (workspace?.hasLicenseKey) {
-                prefetchHandler = prefetchLicense;
-              }
-              break;
+            // REMOVED: License & Edition prefetch
+            // case "License & Edition":
+            //   if (workspace?.hasLicenseKey) {
+            //     prefetchHandler = prefetchLicense;
+            //   }
+            //   break;
             default:
               break;
           }
@@ -247,7 +249,8 @@ export default function SettingsSidebar() {
 
       <ScrollArea w="100%">{menuItems}</ScrollArea>
 
-      {!isCloud() && <AppVersion />}
+      {/* REMOVED: Version display removed */}
+      {/* {!isCloud() && <AppVersion />} */}
 
       {isCloud() && (
         <div className={classes.text}>
