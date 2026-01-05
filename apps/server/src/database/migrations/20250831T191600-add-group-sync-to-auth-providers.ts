@@ -1,16 +1,15 @@
 import { type Kysely } from 'kysely';
 
-// DISABLED: Group sync (part of Security & SSO feature) removed
 export async function up(db: Kysely<any>): Promise<void> {
-  // await db.schema
-  //   .alterTable('auth_providers')
-  //   .addColumn('group_sync', 'boolean', (col) => col.defaultTo(false).notNull())
-  //   .execute();
+  await db.schema
+    .alterTable('auth_providers')
+    .addColumn('group_sync', 'boolean', (col) => col.defaultTo(false).notNull())
+    .execute();
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
-  // await db.schema
-  //   .alterTable('auth_providers')
-  //   .dropColumn('group_sync')
-  //   .execute();
+  await db.schema
+    .alterTable('auth_providers')
+    .dropColumn('group_sync')
+    .execute();
 }
