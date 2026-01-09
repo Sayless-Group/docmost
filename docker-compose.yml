@@ -1,4 +1,19 @@
 services:
+
+  caddy:
+    image: caddy:2
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - web
+
   docmost:
     image: docmost/docmost:latest
     depends_on:
@@ -8,18 +23,27 @@ services:
       APP_SECRET: 'REPLACE_WITH_LONG_SECRET'
       DATABASE_URL: "${DATABASE_URL}"
       REDIS_URL: 'redis://redis:6379'
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     restart: unless-stopped
     volumes:
       - docmost:/app/data/storage
+    networks:
+      - web
 
   redis:
     image: redis:7.2-alpine
     restart: unless-stopped
     volumes:
       - redis_data:/data
+    networks:
+      - web
+
+networks:
+  web:
 
 volumes:
   docmost:
   redis_data:
+  caddy_data:
+  caddy_config:

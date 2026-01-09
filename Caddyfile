@@ -1,0 +1,3 @@
+docs.experthospital.in.ua {
+  reverse_proxy docmost:3000
+}
