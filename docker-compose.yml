@@ -20,7 +20,7 @@ services:
       - redis
     environment:
       APP_URL: '${APP_URL}'
-      APP_SECRET: 'REPLACE_WITH_LONG_SECRET'
+      APP_SECRET: '${APP_SECRET}'
       DATABASE_URL: "${DATABASE_URL}"
       REDIS_URL: 'redis://redis:6379'
     expose:
