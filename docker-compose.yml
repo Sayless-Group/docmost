@@ -15,7 +15,8 @@ services:
       - web
 
   docmost:
-    image: docmost/docmost:latest
+    build: .
+    # image: docmost/docmost:latest
     depends_on:
       - redis
     environment:
