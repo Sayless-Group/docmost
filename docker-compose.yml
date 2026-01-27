@@ -17,26 +17,16 @@ services:
   docmost:
     build: .
     # image: docmost/docmost:latest
-    depends_on:
-      - redis
     environment:
       APP_URL: '${APP_URL}'
       APP_SECRET: '${APP_SECRET}'
       DATABASE_URL: "${DATABASE_URL}"
-      REDIS_URL: 'redis://redis:6379'
+      REDIS_URL: '${REDIS_URL}'
     expose:
       - "3000"
     restart: unless-stopped
     volumes:
       - docmost:/app/data/storage
-    networks:
-      - web
-
-  redis:
-    image: redis:7.2-alpine
-    restart: unless-stopped
-    volumes:
-      - redis_data:/data
     networks:
       - web
 
@@ -46,6 +36,5 @@ networks:
 
 volumes:
   docmost:
-  redis_data:
   caddy_data:
   caddy_config:
