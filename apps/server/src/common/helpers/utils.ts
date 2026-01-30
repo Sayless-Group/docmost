@@ -34,7 +34,8 @@ export type RedisConfig = {
 export function parseRedisUrl(redisUrl: string): RedisConfig {
   // format - redis[s]://[[username][:password]@][host][:port][/db-number][?family=4|6]
   const url = new URL(redisUrl);
-  const { hostname, port, password, pathname, searchParams } = url;
+  const { hostname, port, password: rawPassword, pathname, searchParams } = url;
+  const password = rawPassword ? decodeURIComponent(rawPassword) : undefined;
   const portInt = parseInt(port, 10);
 
   let db: number = 0;
