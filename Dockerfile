@@ -44,6 +44,7 @@ USER node
 RUN pnpm install --frozen-lockfile --prod
 
 RUN mkdir -p /app/data/storage
+RUN mkdir -p /app/data/tmp
 
 EXPOSE 3000
 

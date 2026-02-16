@@ -9,7 +9,7 @@ import {
   FileTaskStatus,
 } from '../utils/file.utils';
 import { StorageService } from '../../storage/storage.service';
-import * as tmp from 'tmp-promise';
+import { createTmpFile, createTmpDir } from '../utils/tmp-utils';
 import { pipeline } from 'node:stream/promises';
 import { createWriteStream } from 'node:fs';
 import { ImportService } from './import.service';
@@ -34,6 +34,7 @@ import { PageService } from '../../../core/page/services/page.service';
 import { ImportPageNode } from '../dto/file-task-dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EventName } from '../../../common/events/event.contants';
+import { EnvironmentService } from '../../environment/environment.service';
 
 @Injectable()
 export class FileImportTaskService {
@@ -48,6 +49,7 @@ export class FileImportTaskService {
     private readonly importAttachmentService: ImportAttachmentService,
     private moduleRef: ModuleRef,
     private eventEmitter: EventEmitter2,
+    private readonly environmentService: EnvironmentService,
   ) {}
 
   async processZIpImport(fileTaskId: string): Promise<void> {
@@ -71,16 +73,18 @@ export class FileImportTaskService {
       return;
     }
 
-    const { path: tmpZipPath, cleanup: cleanupTmpFile } = await tmp.file({
-      prefix: 'docmost-import',
-      postfix: '.zip',
-      discardDescriptor: true,
-    });
+    const tmpDir = this.environmentService.getTmpDir();
 
-    const { path: tmpExtractDir, cleanup: cleanupTmpDir } = await tmp.dir({
-      prefix: 'docmost-extract-',
-      unsafeCleanup: true,
-    });
+    const { path: tmpZipPath, cleanup: cleanupTmpFile } = await createTmpFile(
+      tmpDir,
+      'docmost-import-',
+      '.zip',
+    );
+
+    const { path: tmpExtractDir, cleanup: cleanupTmpDir } = await createTmpDir(
+      tmpDir,
+      'docmost-extract-',
+    );
 
     try {
       const fileStream = await this.storageService.readStream(

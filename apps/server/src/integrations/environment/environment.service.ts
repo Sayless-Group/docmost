@@ -87,6 +87,10 @@ export class EnvironmentService {
     return this.configService.get<string>('FILE_IMPORT_SIZE_LIMIT', '200mb');
   }
 
+  getTmpDir(): string {
+    return this.configService.get<string>('TMP_DIR', '/app/data/tmp');
+  }
+
   getAwsS3AccessKeyId(): string {
     return this.configService.get<string>('AWS_S3_ACCESS_KEY_ID');
   }
