@@ -10,7 +10,7 @@ import { UserRepo } from '@docmost/db/repos/user/user.repo';
 import { PageRepo } from '@docmost/db/repos/page/page.repo';
 import { SpaceMemberRepo } from '@docmost/db/repos/space/space-member.repo';
 import { findHighestUserSpaceRole } from '@docmost/db/repos/space/utils';
-import { SpaceRole } from '../../common/helpers/types/permission';
+import { SpaceRole, UserRole } from '../../common/helpers/types/permission';
 import { getPageId } from '../collaboration.util';
 import { JwtCollabPayload, JwtType } from '../../core/auth/dto/jwt-payload';
 
@@ -68,7 +68,10 @@ export class AuthenticationExtension implements Extension {
       throw new UnauthorizedException();
     }
 
-    if (userSpaceRole === SpaceRole.READER) {
+    if (
+      userSpaceRole === SpaceRole.READER ||
+      user.role === UserRole.MEMBER
+    ) {
       data.connection.readOnly = true;
       this.logger.debug(`User granted readonly access to page: ${pageId}`);
     }

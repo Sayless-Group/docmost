@@ -4,7 +4,7 @@ import {
   createMongoAbility,
   MongoAbility,
 } from '@casl/ability';
-import { SpaceRole } from '../../../common/helpers/types/permission';
+import { SpaceRole, UserRole } from '../../../common/helpers/types/permission';
 import { User } from '@docmost/db/types/entity.types';
 import { SpaceMemberRepo } from '@docmost/db/repos/space/space-member.repo';
 import {
@@ -25,15 +25,22 @@ export default class SpaceAbilityFactory {
 
     const userSpaceRole = findHighestUserSpaceRole(userSpaceRoles);
 
-    switch (userSpaceRole) {
+    if (!userSpaceRole) {
+      throw new NotFoundException('Space permissions not found');
+    }
+
+    // Workspace members are permanently read-only regardless of their space role.
+    const effectiveRole =
+      user.role === UserRole.MEMBER ? SpaceRole.READER : userSpaceRole;
+
+    switch (effectiveRole) {
       case SpaceRole.ADMIN:
         return buildSpaceAdminAbility();
       case SpaceRole.WRITER:
         return buildSpaceWriterAbility();
       case SpaceRole.READER:
-        return buildSpaceReaderAbility();
       default:
-        throw new NotFoundException('Space permissions not found');
+        return buildSpaceReaderAbility();
     }
   }
 }
