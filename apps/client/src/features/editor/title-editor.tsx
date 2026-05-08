@@ -159,7 +159,10 @@ export function TitleEditor({
 
   useEffect(() => {
     setTimeout(() => {
-      titleEditor?.commands.focus("end");
+      const hasHighlight = new URLSearchParams(window.location.search).get("highlight");
+      if (!hasHighlight) {
+        titleEditor?.commands.focus("end");
+      }
     }, 500);
   }, [titleEditor]);
 

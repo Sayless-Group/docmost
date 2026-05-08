@@ -169,6 +169,8 @@ function SearchAndReplaceDialog({ editor, editable = true }: PageFindDialogDialo
   );
 
   const location = useLocation();
+  const scrolledKeyRef = useRef<string | null>(null);
+
   // On every navigation (including initial mount): open with highlight or close
   useEffect(() => {
     const query = new URLSearchParams(location.search).get("highlight");
@@ -176,27 +178,27 @@ function SearchAndReplaceDialog({ editor, editable = true }: PageFindDialogDialo
       setPageFindState({ isOpen: true });
       setSearchText(query);
 
-      // Retry until decorations appear (Yjs content may load after dialog mounts)
+      // Use the slugId (last segment before the hash) as a stable page key,
+      // so title-editor's slug-update navigate() doesn't retrigger the scroll.
+      const slugId = location.pathname.split("/").pop()?.split("-").pop() ?? location.pathname;
+      const scrollKey = slugId + "|" + query;
+      if (scrolledKeyRef.current === scrollKey) return;
+
+      // Delay > Mantine Spotlight close animation (~300ms) so its scroll-lock
+      // restore fires before ours, not after.
       let attempts = 0;
       const tryScroll = () => {
         const el = document.querySelector(".search-result-current");
         if (el) {
-          // Place cursor at match so ProseMirror scrollIntoView tracks this position,
-          // preventing any later transaction from jumping back to position 0 (top).
-          const results = editor?.storage?.searchAndReplace?.results;
-          if (results?.[0]) {
-            editor.commands.setTextSelection({
-              from: results[0].from,
-              to: results[0].from,
-            });
-          }
+          scrolledKeyRef.current = scrollKey;
           el.scrollIntoView({ block: "center" });
           return;
         }
         if (++attempts < 10) setTimeout(tryScroll, 200);
       };
-      setTimeout(tryScroll, 100);
+      setTimeout(tryScroll, 400);
     } else {
+      scrolledKeyRef.current = null;
       closeDialog();
     }
   }, [location]); // eslint-disable-line react-hooks/exhaustive-deps
