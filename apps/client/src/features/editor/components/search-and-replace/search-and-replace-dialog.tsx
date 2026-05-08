@@ -77,14 +77,9 @@ function SearchAndReplaceDialog({ editor, editable = true }: PageFindDialogDialo
 
     if (!position) return;
 
-    // @ts-ignore
-    editor.commands.setTextSelection(position);
-
     const element = document.querySelector(".search-result-current");
     if (element)
       element.scrollIntoView({ behavior: "smooth", block: "center" });
-
-    editor.commands.setTextSelection(0);
   };
 
   const next = () => {
@@ -180,10 +175,27 @@ function SearchAndReplaceDialog({ editor, editable = true }: PageFindDialogDialo
     if (query) {
       setPageFindState({ isOpen: true });
       setSearchText(query);
-      setTimeout(() => {
+
+      // Retry until decorations appear (Yjs content may load after dialog mounts)
+      let attempts = 0;
+      const tryScroll = () => {
         const el = document.querySelector(".search-result-current");
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 150);
+        if (el) {
+          // Place cursor at match so ProseMirror scrollIntoView tracks this position,
+          // preventing any later transaction from jumping back to position 0 (top).
+          const results = editor?.storage?.searchAndReplace?.results;
+          if (results?.[0]) {
+            editor.commands.setTextSelection({
+              from: results[0].from,
+              to: results[0].from,
+            });
+          }
+          el.scrollIntoView({ block: "center" });
+          return;
+        }
+        if (++attempts < 10) setTimeout(tryScroll, 200);
+      };
+      setTimeout(tryScroll, 100);
     } else {
       closeDialog();
     }
