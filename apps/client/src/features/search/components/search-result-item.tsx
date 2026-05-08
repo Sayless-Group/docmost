@@ -24,12 +24,14 @@ interface SearchResultItemProps {
   result: IPageSearch | IAttachmentSearch;
   isAttachmentResult: boolean;
   showSpace?: boolean;
+  query?: string;
 }
 
 export function SearchResultItem({
   result,
   isAttachmentResult,
   showSpace,
+  query,
 }: SearchResultItemProps) {
   const { t } = useTranslation();
 
@@ -51,6 +53,8 @@ export function SearchResultItem({
           attachmentResult.space.slug,
           attachmentResult.page.slugId,
           attachmentResult.page.title,
+          undefined,
+          query,
         )}
         style={{ userSelect: "none" }}
       >
@@ -101,6 +105,8 @@ export function SearchResultItem({
           pageResult.space.slug,
           pageResult.slugId,
           pageResult.title,
+          undefined,
+          query,
         )}
         style={{ userSelect: "none" }}
       >

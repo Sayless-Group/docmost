@@ -114,14 +114,18 @@ function SearchAndReplaceDialog({ editor, editable = true }: PageFindDialogDialo
     editor.commands.selectCurrentItem();
   }, [searchText]);
 
-  const handleOpenEvent = (e) => {
+  const handleOpenEvent = (e: CustomEvent<{ query?: string }>) => {
     setPageFindState({ isOpen: true });
-    const selectedText = editor.state.doc.textBetween(
-      editor.state.selection.from,
-      editor.state.selection.to,
-    );
-    if (selectedText !== "") {
-      setSearchText(selectedText);
+    if (e.detail?.query) {
+      setSearchText(e.detail.query);
+    } else {
+      const selectedText = editor.state.doc.textBetween(
+        editor.state.selection.from,
+        editor.state.selection.to,
+      );
+      if (selectedText !== "") {
+        setSearchText(selectedText);
+      }
     }
     inputRef.current?.focus();
     inputRef.current?.select();
@@ -170,9 +174,20 @@ function SearchAndReplaceDialog({ editor, editable = true }: PageFindDialogDialo
   );
 
   const location = useLocation();
+  // On every navigation (including initial mount): open with highlight or close
   useEffect(() => {
-    closeDialog();
-  }, [location]);
+    const query = new URLSearchParams(location.search).get("highlight");
+    if (query) {
+      setPageFindState({ isOpen: true });
+      setSearchText(query);
+      setTimeout(() => {
+        const el = document.querySelector(".search-result-current");
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 150);
+    } else {
+      closeDialog();
+    }
+  }, [location]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Dialog

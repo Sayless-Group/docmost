@@ -101,6 +101,7 @@ export function SearchSpotlight({ spaceId }: SearchSpotlightProps) {
       result={result}
       isAttachmentResult={isAttachmentSearch}
       showSpace={!filters.spaceId}
+      query={debouncedSearchQuery}
     />
   ));
 

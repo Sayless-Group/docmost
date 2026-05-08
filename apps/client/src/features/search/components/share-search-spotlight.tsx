@@ -35,6 +35,7 @@ export function ShareSearchSpotlight({ shareId }: ShareSearchSpotlightProps) {
         shareId: shareId,
         pageTitle: page.title,
         pageSlugId: page.slugId,
+        searchQuery: debouncedSearchQuery,
       })}
       style={{ userSelect: "none" }}
     >

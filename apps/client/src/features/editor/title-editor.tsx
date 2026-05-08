@@ -107,7 +107,9 @@ export function TitleEditor({
     const anchorId = window.location.hash
       ? window.location.hash.substring(1)
       : undefined;
-    const pageSlug = buildPageUrl(spaceSlug, slugId, title, anchorId);
+    const searchQuery =
+      new URLSearchParams(window.location.search).get("highlight") || undefined;
+    const pageSlug = buildPageUrl(spaceSlug, slugId, title, anchorId, searchQuery);
     navigate(pageSlug, { replace: true });
   }, [title]);
 
