@@ -1,5 +1,5 @@
 import "@/features/editor/styles/index.css";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { Document } from "@tiptap/extension-document";
 import { Heading } from "@tiptap/extension-heading";
@@ -19,7 +19,7 @@ import { useAtom } from "jotai";
 import { useQueryEmit } from "@/features/websocket/use-query-emit.ts";
 import { History } from "@tiptap/extension-history";
 import { buildPageUrl } from "@/features/page/page.utils.ts";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import EmojiCommand from "@/features/editor/extensions/emoji-command.ts";
 import { UpdateEvent } from "@/features/websocket/types";
@@ -50,6 +50,10 @@ export function TitleEditor({
   const [, setTitleEditor] = useAtom(titleEditorAtom);
   const emit = useQueryEmit();
   const navigate = useNavigate();
+  const location = useLocation();
+  // Use a ref so useEffect([title]) always reads the latest location without needing it as a dep
+  const locationRef = useRef({ search: location.search, hash: location.hash });
+  locationRef.current = { search: location.search, hash: location.hash };
   const [activePageId, setActivePageId] = useState(pageId);
   const [currentUser] = useAtom(currentUserAtom);
   const userPageEditMode =
@@ -104,14 +108,14 @@ export function TitleEditor({
   });
 
   useEffect(() => {
-    const anchorId = window.location.hash
-      ? window.location.hash.substring(1)
+    const anchorId = locationRef.current.hash
+      ? locationRef.current.hash.substring(1)
       : undefined;
     const searchQuery =
-      new URLSearchParams(window.location.search).get("highlight") || undefined;
+      new URLSearchParams(locationRef.current.search).get("highlight") || undefined;
     const pageSlug = buildPageUrl(spaceSlug, slugId, title, anchorId, searchQuery);
     navigate(pageSlug, { replace: true });
-  }, [title]);
+  }, [title]); // eslint-disable-line
 
   const saveTitle = useCallback(() => {
     if (!titleEditor || activePageId !== pageId) return;
@@ -159,12 +163,12 @@ export function TitleEditor({
 
   useEffect(() => {
     setTimeout(() => {
-      const hasHighlight = new URLSearchParams(window.location.search).get("highlight");
+      const hasHighlight = new URLSearchParams(locationRef.current.search).get("highlight");
       if (!hasHighlight) {
         titleEditor?.commands.focus("end");
       }
     }, 500);
-  }, [titleEditor]);
+  }, [titleEditor]); // eslint-disable-line
 
   useEffect(() => {
     return () => {
