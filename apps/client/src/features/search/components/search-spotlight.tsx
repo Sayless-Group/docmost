@@ -25,8 +25,10 @@ export function SearchSpotlight({ spaceId }: SearchSpotlightProps) {
   const [filters, setFilters] = useState<{
     spaceId?: string | null;
     contentType?: string;
+    strict?: boolean;
   }>({
     contentType: "page",
+    strict: false,
   });
   const [isAiMode, setIsAiMode] = useState(false);
 
@@ -40,6 +42,10 @@ export function SearchSpotlight({ spaceId }: SearchSpotlightProps) {
     // Handle space filtering - only pass spaceId if a specific space is selected
     if (filters.spaceId) {
       params.spaceId = filters.spaceId;
+    }
+
+    if (filters.strict) {
+      params.strict = true;
     }
 
     return params;
@@ -106,7 +112,7 @@ export function SearchSpotlight({ spaceId }: SearchSpotlightProps) {
   ));
 
   const handleFiltersChange = (newFilters: any) => {
-    setFilters(newFilters);
+    setFilters((prev) => ({ ...prev, ...newFilters }));
   };
 
   const handleAskClick = () => {
@@ -167,6 +173,7 @@ export function SearchSpotlight({ spaceId }: SearchSpotlightProps) {
             onAskClick={handleAskClick}
             spaceId={spaceId}
             isAiMode={isAiMode}
+            strict={filters.strict}
           />
         </div>
 

@@ -30,6 +30,10 @@ export class SearchDTO {
   @IsOptional()
   @IsNumber()
   offset?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  strict?: boolean;
 }
 
 export class SearchShareDTO extends SearchDTO {

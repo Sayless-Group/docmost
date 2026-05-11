@@ -34,6 +34,8 @@ interface SearchSpotlightFiltersProps {
   onAskClick?: () => void;
   spaceId?: string;
   isAiMode?: boolean;
+  strict?: boolean;
+  onStrictChange?: (strict: boolean) => void;
 }
 
 export function SearchSpotlightFilters({
@@ -41,6 +43,8 @@ export function SearchSpotlightFilters({
   onAskClick,
   spaceId,
   isAiMode = false,
+  strict = false,
+  onStrictChange,
 }: SearchSpotlightFiltersProps) {
   const { t } = useTranslation();
   const { hasLicenseKey } = useLicense();
@@ -123,6 +127,21 @@ export function SearchSpotlightFilters({
       onFiltersChange({
         spaceId: newSelectedSpaceId,
         contentType: newContentType,
+        strict,
+      });
+    }
+  };
+
+  const handleStrictToggle = () => {
+    const newStrict = !strict;
+    if (onStrictChange) {
+      onStrictChange(newStrict);
+    }
+    if (onFiltersChange) {
+      onFiltersChange({
+        spaceId: selectedSpaceId,
+        contentType,
+        strict: newStrict,
       });
     }
   };
@@ -287,6 +306,18 @@ export function SearchSpotlightFilters({
           ))}
         </Menu.Dropdown>
       </Menu>
+
+      <Button
+        variant={strict ? "filled" : "subtle"}
+        color={strict ? "blue" : "gray"}
+        size="sm"
+        className={classes.filterButton}
+        fw={500}
+        onClick={handleStrictToggle}
+        title={t("Exact phrase: search for words in the exact order typed")}
+      >
+        {t("Exact phrase")}
+      </Button>
     </div>
   );
 }
