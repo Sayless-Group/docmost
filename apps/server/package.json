@@ -70,6 +70,7 @@
     "cookie": "^1.0.2",
     "fs-extra": "^11.3.0",
     "happy-dom": "20.0.10",
+    "html-to-docx": "^1.8.0",
     "ioredis": "^5.4.1",
     "jsonwebtoken": "^9.0.2",
     "kysely": "^0.28.2",

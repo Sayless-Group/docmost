@@ -31,6 +31,7 @@ import {
   getAttachmentIds,
   getProsemirrorContent,
 } from '../../common/helpers/prosemirror/utils';
+import { DocxExporter } from './docx-exporter';
 
 @Injectable()
 export class ExportService {
@@ -41,6 +42,7 @@ export class ExportService {
     @InjectKysely() private readonly db: KyselyDB,
     private readonly storageService: StorageService,
     private readonly environmentService: EnvironmentService,
+    private readonly docxExporter: DocxExporter,
   ) {}
 
   async exportPage(format: string, page: Page, singlePage?: boolean) {
@@ -84,6 +86,14 @@ export class ExportService {
         '',
       );
       return turndown(newPageHtml);
+    }
+
+    if (format === ExportFormat.DOCX) {
+      return this.docxExporter.convertHtmlToDocx(
+        pageHtml,
+        page.spaceId,
+        getPageTitle(page.title),
+      );
     }
 
     return;

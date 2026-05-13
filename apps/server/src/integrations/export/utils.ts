@@ -19,6 +19,10 @@ export function getExportExtension(format: string) {
   if (format === ExportFormat.Markdown) {
     return '.md';
   }
+
+  if (format === ExportFormat.DOCX) {
+    return '.docx';
+  }
   return;
 }
 
